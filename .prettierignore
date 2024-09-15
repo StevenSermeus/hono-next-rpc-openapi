@@ -1,0 +1,12 @@
+node_modules/
+dist/
+coverage/
+volumes/
+
+*-lock.json
+*-lock.yaml
+*.lock
+
+.env
+.env.*
+.env-*
