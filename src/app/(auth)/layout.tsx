@@ -2,6 +2,8 @@ import React from 'react';
 
 import dynamic from 'next/dynamic';
 
+import LoadingPage from '@/components/loading-page';
+
 export default function Layout({
   children,
 }: Readonly<{
@@ -9,7 +11,7 @@ export default function Layout({
 }>) {
   const AuthProvider = dynamic(() => import('@/providers/auth'), {
     ssr: false,
-    loading: () => <>Loading ...</>,
+    loading: () => <LoadingPage />,
   });
   return <AuthProvider>{children}</AuthProvider>;
 }
