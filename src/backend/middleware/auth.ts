@@ -16,7 +16,7 @@ export const protectedRoute = createMiddleware(async (c, next) => {
   if (isBlacklisted !== null) {
     deleteCookie(c, 'access_token');
     deleteCookie(c, 'refresh_token');
-    return c.json({ error: 'Unauthorized' }, 401);
+    return c.json({ message: 'Unauthorized' }, 401);
   }
   try {
     if (token === undefined) {
@@ -29,10 +29,10 @@ export const protectedRoute = createMiddleware(async (c, next) => {
       if (isBlacklisted !== null) {
         deleteCookie(c, 'access_token');
         deleteCookie(c, 'refresh_token');
-        return c.json({ error: 'Unauthorized' }, 401);
+        return c.json({ message: 'Unauthorized' }, 401);
       }
       if (refresh_token === undefined) {
-        return c.json({ error: 'Unauthorized' }, 401);
+        return c.json({ message: 'Unauthorized' }, 401);
       }
       const payload = await verify(refresh_token, env.JWT_REFRESH_SECRET);
       const token = await sign(
@@ -57,7 +57,7 @@ export const protectedRoute = createMiddleware(async (c, next) => {
       const refresh_token = getCookie(c, 'refresh_token');
 
       if (refresh_token === undefined) {
-        return c.json({ error: 'Unauthorized' }, 401);
+        return c.json({ message: 'Unauthorized' }, 401);
       }
       try {
         const payload = await verify(refresh_token, env.JWT_REFRESH_SECRET);
@@ -78,12 +78,12 @@ export const protectedRoute = createMiddleware(async (c, next) => {
         deleteCookie(c, 'access_token');
         deleteCookie(c, 'refresh_token');
         console.error(error);
-        return c.json({ error: 'Unauthorized' }, 401);
+        return c.json({ message: 'Unauthorized' }, 401);
       }
     }
     deleteCookie(c, 'access_token');
     deleteCookie(c, 'refresh_token');
-    return c.json({ error: 'Unauthorized' }, 401);
+    return c.json({ message: 'Unauthorized' }, 401);
   }
   return await next();
 });

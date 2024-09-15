@@ -15,7 +15,7 @@ import { env } from '@/config/env';
 
 export const dynamic = 'force-dynamic';
 
-export const app = new OpenAPIHono().basePath('/api');
+const app = new OpenAPIHono().basePath('/api');
 app.doc('/doc', {
   openapi: '3.0.0',
   info: {
@@ -91,11 +91,10 @@ app.openAPIRegistry.registerComponent('securitySchemes', 'RefreshToken', {
   name: 'refresh_token',
 });
 
-export const GET = handle(app);
-export const POST = handle(app);
-export const PUT = handle(app);
-export const DELETE = handle(app);
-export const OPTIONS = handle(app);
-export const PATCH = handle(app);
+export const GET = handle(routes);
+export const POST = handle(routes);
+export const PUT = handle(routes);
+export const DELETE = handle(routes);
+export const PATCH = handle(routes);
 
 export type AppRoutes = typeof routes;
