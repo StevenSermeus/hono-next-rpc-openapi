@@ -12,6 +12,7 @@ let container: StartedPostgreSqlContainer;
 
 beforeAll(async () => {
   container = await new PostgreSqlContainer('postgres:16').start();
+  throw new Error(container.getConnectionUri());
   const url = container.getConnectionUri();
   process.env.DATABASE_URL_TEST = url;
   //exec with zsh shell
