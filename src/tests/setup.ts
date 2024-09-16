@@ -34,7 +34,8 @@ beforeAll(async () => {
       },
     },
   });
-});
+  //for CI/CD it's slower so we need to increase the timeout
+}, 100000);
 
 afterAll(async () => {
   await container.stop();
