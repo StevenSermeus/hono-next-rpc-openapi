@@ -1,7 +1,7 @@
 import { testClient } from 'hono/testing';
 import { describe, expect, test } from 'vitest';
 
-import { AppRoutes, hono } from '@/app/api/[[...route]]/route';
+import { AppRoutes, hono } from '@/backend';
 
 describe('salut', () => {
   test('Correct regitser', async () => {

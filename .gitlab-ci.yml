@@ -1,0 +1,43 @@
+services:
+  - name: docker:20.10.1-dind
+    command: ['--tls=false', '--host=tcp://0.0.0.0:2376']
+
+stages:
+  - lint
+  - test
+  - build
+
+variables:
+  DOCKER_HOST: 'tcp://docker:2375'
+  DOCKER_TLS_CERTDIR: ''
+  DOCKER_DRIVER: 'overlay2'
+
+lint:
+  stage: lint
+  image: node:20-alpine
+  script:
+    - yarn
+    - yarn lint
+
+test:
+  stage: test
+  image: node:20-alpine
+  script:
+    - yarn
+    - yarn test
+
+build:
+  stage: build
+  image: node:20-alpine
+  script:
+    - yarn
+    - yarn build
+
+.node-cache:
+  cache:
+    key:
+      files:
+        - package.json
+        - yarn.lock
+    paths:
+      - node_modules
