@@ -15,7 +15,7 @@ beforeAll(async () => {
   const url = container.getConnectionUri();
   process.env.DATABASE_URL_TEST = url;
   //exec with zsh shell
-  execSync(`npx prisma db push`, {
+  execSync(`npx prisma db push --skip-generate --accept-data-loss`, {
     stdio: 'inherit',
     env: {
       ...process.env,

@@ -1557,19 +1557,19 @@
     sirv "^2.0.4"
     ws "^8.18.0"
 
-"@vitest/coverage-v8@^2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@vitest/coverage-v8/-/coverage-v8-2.0.5.tgz#411961ce4fd1177a32b4dd74ab576ed3b859155e"
-  integrity sha512-qeFcySCg5FLO2bHHSa0tAZAOnAUbp4L6/A5JDuj9+bt53JREl8hpLjLHEWF0e/gWc8INVpJaqA7+Ene2rclpZg==
+"@vitest/coverage-v8@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@vitest/coverage-v8/-/coverage-v8-2.1.1.tgz#a1f58cafe7d4306ec751c1054b58f1b60327693a"
+  integrity sha512-md/A7A3c42oTT8JUHSqjP5uKTWJejzUW4jalpvs+rZ27gsURsMU8DEb+8Jf8C6Kj2gwfSHJqobDNBuoqlm0cFw==
   dependencies:
     "@ampproject/remapping" "^2.3.0"
     "@bcoe/v8-coverage" "^0.2.3"
-    debug "^4.3.5"
+    debug "^4.3.6"
     istanbul-lib-coverage "^3.2.2"
     istanbul-lib-report "^3.0.1"
     istanbul-lib-source-maps "^5.0.6"
     istanbul-reports "^3.1.7"
-    magic-string "^0.30.10"
+    magic-string "^0.30.11"
     magicast "^0.3.4"
     std-env "^3.7.0"
     test-exclude "^7.0.1"
