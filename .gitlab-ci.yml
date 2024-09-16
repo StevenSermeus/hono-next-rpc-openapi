@@ -40,7 +40,6 @@ build:
     - yarn build
   variables:
     DATABASE_URL: 'postgres://test:postgres@localhost:5432/test'
-    PORT: 1234
     JWT_ACCESS_SECRET: 'secret_jwt'
     JWT_REFRESH_SECRET: 'secret_refresh'
     ACCESS_TOKEN_EXPIRES_MINUTES: 15

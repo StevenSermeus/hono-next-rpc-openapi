@@ -5,7 +5,6 @@ import { createEnv } from '@t3-oss/env-core';
 export const env = createEnv({
   server: {
     DATABASE_URL: z.string().url(),
-    PORT: z.coerce.number().default(3000),
     JWT_ACCESS_SECRET: z.string(),
     JWT_REFRESH_SECRET: z.string(),
     REFRESH_TOKEN_EXPIRES_DAYS: z.coerce.number().default(7),
@@ -14,7 +13,6 @@ export const env = createEnv({
   },
   runtimeEnv: {
     DATABASE_URL: process.env.DATABASE_URL,
-    PORT: process.env.PORT,
     JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || 'access',
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'refresh',
     REFRESH_TOKEN_EXPIRES_DAYS:
