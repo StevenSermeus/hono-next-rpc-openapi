@@ -11,7 +11,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "VITE_CJS_IGNORE_WARNING=true vitest",
+    "test": "VITE_CJS_IGNORE_WARNING=true vitest --no-watch",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },

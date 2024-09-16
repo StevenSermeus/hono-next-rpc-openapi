@@ -1,6 +1,5 @@
 import { execSync } from 'child_process';
-import { config } from 'dotenv';
-import { afterAll, beforeAll } from 'vitest';
+import type { GlobalSetupContext } from 'vitest/node';
 
 import { PrismaClient } from '@prisma/client';
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from '@testcontainers/postgresql';
@@ -10,22 +9,25 @@ import prisma from '@/backend/libs/prisma';
 
 let container: StartedPostgreSqlContainer;
 
-beforeAll(async () => {
+declare module 'vitest' {
+  export interface ProvidedContext {
+    DATABASE_URL: string;
+  }
+}
+
+export const setup = async ({ provide }: GlobalSetupContext) => {
   container = await new PostgreSqlContainer('postgres:16').start();
   const url = container.getConnectionUri();
   process.env.DATABASE_URL_TEST = url;
   //exec with zsh shell
-  execSync(`npx prisma db push --skip-generate --accept-data-loss`, {
+  execSync(`npx prisma db push --skip-generate`, {
     stdio: 'inherit',
     env: {
       ...process.env,
       DATABASE_URL: url,
     },
   });
-
-  config({
-    path: '.env.test',
-  });
+  provide('DATABASE_URL', url);
   //@ts-expect-error - we are setting the DATABASE_URL_TEST
   prisma = new PrismaClient({
     datasources: {
@@ -35,8 +37,8 @@ beforeAll(async () => {
     },
   });
   //for CI/CD it's slower so we need to increase the timeout
-}, 100000);
+};
 
-afterAll(async () => {
+export const teardown = async () => {
   await container.stop();
-});
+};

@@ -6,6 +6,9 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   test: {
+    provide: {
+      DATABASE_URL: '',
+    },
     coverage: {
       provider: 'v8',
       exclude: [
@@ -24,7 +27,8 @@ export default defineConfig({
       ],
     },
     environment: 'jsdom',
-    setupFiles: ['./src/tests/setup.ts'],
+    setupFiles: ['./src/tests/setup2.ts'],
+    globalSetup: ['./src/tests/setup.ts'],
   },
   server: {
     proxy: {
