@@ -8,7 +8,6 @@ export const env = createEnv({
     PORT: z.coerce.number().default(3000),
     JWT_ACCESS_SECRET: z.string(),
     JWT_REFRESH_SECRET: z.string(),
-    SALT_ROUNDS: z.coerce.number().default(10),
     REFRESH_TOKEN_EXPIRES_DAYS: z.coerce.number().default(7),
     ACCESS_TOKEN_EXPIRES_MINUTES: z.coerce.number().default(15),
     WEBSITE_URL: z.string().url().default('http://localhost:3000'),
@@ -18,7 +17,6 @@ export const env = createEnv({
     PORT: process.env.PORT,
     JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || 'access',
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'refresh',
-    SALT_ROUNDS: process.env.NODE_ENV === 'test' ? 10 : process.env.SALT_ROUNDS,
     REFRESH_TOKEN_EXPIRES_DAYS:
       process.env.NODE_ENV === 'test' ? 7 : process.env.REFRESH_TOKEN_EXPIRES_DAYS,
     ACCESS_TOKEN_EXPIRES_MINUTES:

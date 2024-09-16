@@ -1,11 +1,8 @@
-import * as bcrypt from 'bcrypt';
+import * as argon2 from 'argon2';
 
-import { env } from '@/config/env';
-
-export function hash(password: string): [string, Error | null] {
+export async function hash(password: string): Promise<[string, Error | null]> {
   try {
-    const salt = bcrypt.genSaltSync(env.SALT_ROUNDS);
-    const hash = bcrypt.hashSync(password, salt);
+    const hash = await argon2.hash(password);
     return [hash, null];
   } catch (error) {
     console.error(error);
@@ -13,9 +10,9 @@ export function hash(password: string): [string, Error | null] {
   }
 }
 
-export function compare(password: string, hash: string): [boolean, Error | null] {
+export async function compare(password: string, hash: string): Promise<[boolean, Error | null]> {
   try {
-    return [bcrypt.compareSync(password, hash), null];
+    return [await argon2.verify(hash, password), null];
   } catch (error) {
     console.error(error);
     return [false, new Error('Failed to verify password')];

@@ -83,7 +83,7 @@ export const loginRoute = login.openapi(loginRouteOpenApi, async c => {
     if (user === null) {
       return c.json({ message: 'Failed to login' }, 404);
     }
-    const [verified, verifyError] = compare(password, user.password);
+    const [verified, verifyError] = await compare(password, user.password);
     if (verifyError !== null) {
       return c.json({ message: verifyError.message }, 500);
     }

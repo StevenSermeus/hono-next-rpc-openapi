@@ -67,7 +67,7 @@ const register = new OpenAPIHono<{ Variables: VariablesHono }>();
 
 export const registerRoute = register.openapi(registerRouteOpenApi, async c => {
   const { email, password, name } = c.req.valid('json');
-  const [hashedPassword, hashError] = hash(password);
+  const [hashedPassword, hashError] = await hash(password);
   if (hashError !== null) {
     return c.json({ message: 'Failed to register' }, 500);
   }

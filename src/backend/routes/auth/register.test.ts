@@ -3,8 +3,8 @@ import { describe, expect, test } from 'vitest';
 
 import { AppRoutes, hono } from '@/backend';
 
-describe('salut', () => {
-  test('Correct regitser', async () => {
+describe('Register', () => {
+  test('Correct', async () => {
     const client = testClient<AppRoutes>(hono);
     const res = await client.api.auth.register.$post({
       json: {
