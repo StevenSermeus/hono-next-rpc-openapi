@@ -1,16 +1,17 @@
+# DinD service is required for Testcontainers
 services:
-  - name: docker:20.10.1-dind
-    command: ['--tls=false', '--host=tcp://0.0.0.0:2376']
+  - docker:dind
+
+variables:
+  # Instruct Testcontainers to use the daemon of DinD.
+  DOCKER_HOST: 'tcp://docker:2375'
+  # Improve performance with overlayfs.
+  DOCKER_DRIVER: overlay2
 
 stages:
   # - lint
   - test
   - build
-
-variables:
-  DOCKER_HOST: 'tcp://docker:2375'
-  DOCKER_TLS_CERTDIR: ''
-  DOCKER_DRIVER: 'overlay2'
 
 # lint:
 #   stage: lint
