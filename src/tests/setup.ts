@@ -23,7 +23,9 @@ beforeAll(async () => {
     },
   });
 
-  config();
+  config({
+    path: '.env.test',
+  });
   //@ts-expect-error - we are setting the DATABASE_URL_TEST
   prisma = new PrismaClient({
     datasources: {

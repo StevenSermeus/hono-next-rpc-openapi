@@ -19,6 +19,13 @@ lint:
     - yarn
     - yarn lint
 
+format:
+  stage: lint
+  image: node:20-alpine
+  script:
+    - yarn
+    - yarn format:check
+
 test:
   stage: test
   image: node:20-alpine

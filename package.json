@@ -12,7 +12,8 @@
     "start": "next start",
     "lint": "next lint",
     "test": "VITE_CJS_IGNORE_WARNING=true vitest",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "@hono/prometheus": "^1.0.1",
