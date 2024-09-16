@@ -34,7 +34,7 @@ beforeAll(async () => {
       },
     },
   });
-});
+}, 30000);
 
 afterAll(async () => {
   await container.stop();
