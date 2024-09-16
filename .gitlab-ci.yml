@@ -48,9 +48,9 @@ build:
     - yarn
     - yarn build
   variables:
-    DATABASE_URL: 'postgres://test:postgres@localhost:5432/test'
-    JWT_ACCESS_SECRET: 'secret_jwt'
-    JWT_REFRESH_SECRET: 'secret_refresh'
+    DATABASE_URL: 'postgres://test:postgres@localhost:5432/test' # This should be set in the environment variables on gitlab of the project
+    JWT_ACCESS_SECRET: 'secret_jwt' # This should be set in the environment variables on gitlab of the project
+    JWT_REFRESH_SECRET: 'secret_refresh' # This should be set in the environment variables on gitlab of the project
     ACCESS_TOKEN_EXPIRES_MINUTES: 15
     REFRESH_TOKEN_EXPIRES_DAYS: 7
     WEBSITE_URL: 'http://localhost:3000'
