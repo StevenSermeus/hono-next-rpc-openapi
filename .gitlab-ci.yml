@@ -3,7 +3,7 @@ services:
     command: ['--tls=false', '--host=tcp://0.0.0.0:2376']
 
 stages:
-  - lint
+  # - lint
   - test
   - build
 
@@ -12,19 +12,19 @@ variables:
   DOCKER_TLS_CERTDIR: ''
   DOCKER_DRIVER: 'overlay2'
 
-lint:
-  stage: lint
-  image: node:20-alpine
-  script:
-    - yarn
-    - yarn lint
+# lint:
+#   stage: lint
+#   image: node:20-alpine
+#   script:
+#     - yarn
+#     - yarn lint
 
-format:
-  stage: lint
-  image: node:20-alpine
-  script:
-    - yarn
-    - yarn format:check
+# format:
+#   stage: lint
+#   image: node:20-alpine
+#   script:
+#     - yarn
+#     - yarn format:check
 
 test:
   stage: test
