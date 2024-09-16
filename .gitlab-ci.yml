@@ -38,6 +38,15 @@ build:
   script:
     - yarn
     - yarn build
+  variables:
+    DATABASE_URL: 'postgres://test:postgres@localhost:5432/test'
+    PORT: 1234
+    JWT_ACCESS_SECRET: 'secret_jwt'
+    JWT_REFRESH_SECRET: 'secret_refresh'
+    ACCESS_TOKEN_EXPIRES_MINUTES: 15
+    REFRESH_TOKEN_EXPIRES_DAYS: 7
+    SALT_ROUNDS: 10
+    WEBSITE_URL: 'http://localhost:3000'
 
 .node-cache:
   cache:
