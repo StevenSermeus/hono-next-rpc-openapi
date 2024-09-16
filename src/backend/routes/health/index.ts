@@ -9,6 +9,7 @@ export const healthRouteOpenApi = createRoute({
   description: 'Health',
   tags: ['Health'],
   path: '/health',
+  security: [],
   responses: {
     200: {
       description: 'Login Successful',

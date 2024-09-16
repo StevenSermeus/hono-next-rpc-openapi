@@ -15,6 +15,7 @@ export const loginRouteOpenApi = createRoute({
   description: 'Login as a user',
   tags: ['Auth'],
   path: '/login',
+  security: [],
   request: {
     body: {
       content: {
@@ -92,7 +93,7 @@ export const loginRoute = login.openapi(loginRouteOpenApi, async c => {
     const token = await sign(
       {
         user_id: user.id,
-        exp: Math.floor(Date.now() / 1000) + 60 * 60 * env.ACCESS_TOKEN_EXPIRES_MINUTES,
+        exp: Math.floor(Date.now() / 1000) + 60 * env.ACCESS_TOKEN_EXPIRES_MINUTES,
         iat: Math.floor(Date.now() / 1000),
       },
       env.JWT_ACCESS_SECRET
@@ -110,11 +111,18 @@ export const loginRoute = login.openapi(loginRouteOpenApi, async c => {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * env.REFRESH_TOKEN_EXPIRES_DAYS,
       secure: process.env.NODE_ENV === 'production',
+      path: '/api/auth/token',
     });
     setCookie(c, 'access_token', token, {
       httpOnly: true,
-      maxAge: 60 * 60 * env.ACCESS_TOKEN_EXPIRES_MINUTES,
+      maxAge: 60 * env.ACCESS_TOKEN_EXPIRES_MINUTES,
       secure: process.env.NODE_ENV === 'production',
+    });
+    await prisma.refreshToken.create({
+      data: {
+        token: refreshToken,
+        userId: user.id,
+      },
     });
     return c.json(
       {

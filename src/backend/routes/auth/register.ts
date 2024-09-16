@@ -16,6 +16,7 @@ export const registerRouteOpenApi = createRoute({
   description: 'Register a new user',
   tags: ['Auth'],
   path: '/register',
+  security: [],
   request: {
     body: {
       content: {
@@ -80,7 +81,7 @@ export const registerRoute = register.openapi(registerRouteOpenApi, async c => {
     const token = await sign(
       {
         user_id: user.id,
-        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 8,
+        exp: Math.floor(Date.now() / 1000) + 60 * env.ACCESS_TOKEN_EXPIRES_MINUTES,
         iat: Math.floor(Date.now() / 1000),
       },
       env.JWT_ACCESS_SECRET
@@ -96,10 +97,17 @@ export const registerRoute = register.openapi(registerRouteOpenApi, async c => {
     setCookie(c, 'refresh_token', refreshToken, {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * env.REFRESH_TOKEN_EXPIRES_DAYS,
+      path: '/api/auth/token',
     });
     setCookie(c, 'access_token', token, {
       httpOnly: true,
-      maxAge: 60 * 60 * env.ACCESS_TOKEN_EXPIRES_MINUTES,
+      maxAge: 60 * env.ACCESS_TOKEN_EXPIRES_MINUTES,
+    });
+    await prisma.refreshToken.create({
+      data: {
+        token: refreshToken,
+        userId: user.id,
+      },
     });
     return c.json({ email: user.email, name: user.name, id: user.id }, 201);
   } catch (e) {

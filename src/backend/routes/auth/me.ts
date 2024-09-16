@@ -17,7 +17,6 @@ const meRouteOpenApi = createRoute({
   security: [
     {
       AccessToken: [],
-      RefreshToken: [],
     },
   ],
   middleware: [protectedRoute],

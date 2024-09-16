@@ -15,8 +15,12 @@ model User {
   email String  @unique
   name  String
   password String
+  refreshTokens RefreshToken[]
 }
 
-model Blacklist{
-  id String @id
+model RefreshToken{
+  token String @id
+  user User @relation(fields: [userId], references: [id])
+  userId String
+  isRevoked Boolean @default(false)
 }

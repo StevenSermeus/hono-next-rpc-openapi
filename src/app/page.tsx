@@ -51,7 +51,7 @@ export default function Home() {
     mutationKey: ['auth', 'register'],
   });
 
-  const logout = client.api.auth.logout.$post;
+  const logout = client.api.auth.token.logout.$post;
   const logoutMutation = useMutation<InferResponseType<typeof logout>, Error, void>({
     mutationFn: async () => {
       const res = await logout();
