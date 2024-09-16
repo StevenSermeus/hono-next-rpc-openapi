@@ -11,7 +11,7 @@ switch (process.env.NODE_ENV) {
   default:
     if (!globalWithPrisma.prisma) {
       globalWithPrisma.prisma = new PrismaClient({
-        log: ['info', 'warn', 'query'],
+        log: process.env.NODE_ENV === 'test' ? [] : ['info', 'warn', 'query'],
       });
     }
     prisma = globalWithPrisma.prisma;

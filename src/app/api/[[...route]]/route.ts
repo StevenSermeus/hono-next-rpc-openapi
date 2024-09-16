@@ -97,4 +97,6 @@ export const PUT = handle(routes);
 export const DELETE = handle(routes);
 export const PATCH = handle(routes);
 
+export const hono = app;
+
 export type AppRoutes = typeof routes;

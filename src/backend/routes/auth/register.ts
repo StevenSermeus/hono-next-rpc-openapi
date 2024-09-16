@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 import { Prisma } from '@prisma/client';
 
+import { logger } from '@/backend/libs/logger';
 import { UserSchema } from '@/backend/libs/openApi';
 import { hash } from '@/backend/libs/password';
 import prisma from '@/backend/libs/prisma';
@@ -111,15 +112,16 @@ export const registerRoute = register.openapi(registerRouteOpenApi, async c => {
     });
     return c.json({ email: user.email, name: user.name, id: user.id }, 201);
   } catch (e) {
+    logger.error(e);
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       // The .code property can be accessed in a type-safe manner
       if (e.code === 'P2002') {
-        console.log(
+        logger.info(
           'There is a unique constraint violation, a new user cannot be created with this email'
         );
         return c.json({ message: 'Failed to register, email already used' }, 400);
       }
     }
-    return c.json({ message: 'Failed to register' }, 500);
+    return c.json({ message: `Failed to register` }, 500);
   }
 });
