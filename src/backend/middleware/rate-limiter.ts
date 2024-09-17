@@ -1,4 +1,5 @@
 import { rateLimiter } from 'hono-rate-limiter';
+import { z } from 'zod';
 
 const rateLimiterMiddleware = ({
   windowMs,
@@ -22,4 +23,17 @@ const rateLimiterMiddleware = ({
   });
 };
 
-export { rateLimiterMiddleware };
+const rateLimitOpenApiResponse = {
+  429: {
+    description: 'Rate limit exceeded',
+    content: {
+      'application/json': {
+        schema: z.object({
+          message: z.string(),
+        }),
+      },
+    },
+  },
+};
+
+export { rateLimiterMiddleware, rateLimitOpenApiResponse };
