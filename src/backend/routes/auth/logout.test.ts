@@ -29,6 +29,22 @@ describe('Logout', () => {
     });
   });
 
+  test(`Response time is less than ${RESPONSE_TIMEOUT} in success`, async () => {
+    const time = new Timer();
+    await client.api.v1.auth.token.logout.$post(undefined, {
+      headers: {
+        cookie: cookies.join('; '),
+      },
+    });
+    expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
+  });
+
+  test(`Response time is less than ${RESPONSE_TIMEOUT} in failure`, async () => {
+    const time = new Timer();
+    await client.api.v1.auth.token.logout.$post();
+    expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
+  });
+
   test('Correct', async () => {
     const res = await client.api.v1.auth.me.$get(undefined, {
       headers: {

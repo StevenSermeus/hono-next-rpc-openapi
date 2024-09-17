@@ -131,12 +131,23 @@ export const loginRoute = login.openapi(loginRouteOpenApi, async c => {
       maxAge: 60 * env.ACCESS_TOKEN_EXPIRES_MINUTES,
       secure: process.env.NODE_ENV === 'production',
     });
-    await prisma.refreshToken.create({
-      data: {
+    const token_db = await prisma.refreshToken.findFirst({
+      where: {
         token: refreshToken,
-        userId: user.id,
       },
     });
+    if (token_db !== null && token_db.isRevoked) {
+      return c.json({ message: 'Failed to login' }, 400);
+    }
+    if (token_db === null) {
+      await prisma.refreshToken.create({
+        data: {
+          token: refreshToken,
+          userId: user.id,
+          isRevoked: false,
+        },
+      });
+    }
     return c.json(
       {
         id: user.id,
@@ -146,6 +157,7 @@ export const loginRoute = login.openapi(loginRouteOpenApi, async c => {
       200
     );
   } catch (error) {
+    console.error(error);
     return c.json({ message: 'Failed to login' }, 500);
   }
 });

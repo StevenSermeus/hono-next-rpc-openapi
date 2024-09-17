@@ -69,6 +69,9 @@ export const logoutRoute = logout.openapi(logoutRouteOpenApi, async c => {
       secure: process.env.NODE_ENV === 'production',
       httpOnly: true,
     });
+    if (!refreshToken) {
+      return c.json({ message: 'Unauthorized' }, 401);
+    }
     await prisma.refreshToken.update({
       where: {
         token: refreshToken,

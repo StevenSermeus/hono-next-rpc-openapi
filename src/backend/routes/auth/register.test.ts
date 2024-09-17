@@ -6,6 +6,15 @@ import prisma from '@/backend/libs/prisma';
 import { RESPONSE_TIMEOUT, Timer } from '@/tests/utils';
 
 describe('Register', () => {
+  afterAll(async () => {
+    await prisma.user.deleteMany({
+      where: {
+        email: {
+          in: ['test69999dqsdqs@gmail.com', 'testIntegration0@gmail.com'],
+        },
+      },
+    });
+  });
   test('Correct', async () => {
     const client = testClient<AppRoutes>(hono);
     const res = await client.api.v1.auth.register.$post({
@@ -24,14 +33,30 @@ describe('Register', () => {
     expect(res2.status).toBe(200);
   });
 
-  afterAll(async () => {
-    await prisma.user.deleteMany({
-      where: {
-        email: {
-          in: ['test69999dqsdqs@gmail.com', 'testIntegration0@gmail.com'],
-        },
+  test(`Response time is less than ${RESPONSE_TIMEOUT} in success`, async () => {
+    const client = testClient<AppRoutes>(hono);
+    const time = new Timer();
+    await client.api.v1.auth.register.$post({
+      json: {
+        email: 'testregistertime@gmail.com',
+        password: '#Password123',
+        name: 'John Doe',
       },
     });
+    expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
+  });
+
+  test(`Response time is less than ${RESPONSE_TIMEOUT} in failure`, async () => {
+    const client = testClient<AppRoutes>(hono);
+    const time = new Timer();
+    await client.api.v1.auth.register.$post({
+      json: {
+        email: 'test69999dqsdqs@gmail.com',
+        password: '#Password123',
+        name: 'John Doe',
+      },
+    });
+    expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
   });
 
   test('Already used email', async () => {
