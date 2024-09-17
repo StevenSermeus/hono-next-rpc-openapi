@@ -487,6 +487,11 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.8.tgz#21a907684723bbbaa5f0974cf7730bd797eb8e62"
   integrity sha512-kym7SodPp8/wloecOpcmSnWJsK7M0E5Wg8UcFA+uO4B9s5d0ywXOEro/8HM9x0rW+TljRzul/14UYz3TleT3ig==
 
+"@hono/node-server@^1.13.0":
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/@hono/node-server/-/node-server-1.13.0.tgz#c7456bdd5a5b21f0ad759f46ba5a1cc3f8411d5e"
+  integrity sha512-kz323qIQkNQElEGroo/E9MKPDuIR5pkuk/XEWd50K+cSEKdmdiYx0PKWUdaNY2ecJYngtF+njDMsMKplL6zfEg==
+
 "@hono/prometheus@^1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@hono/prometheus/-/prometheus-1.0.1.tgz#4fa1fdc83da8ffe1bbf40ad3c6fac2367a2e85f1"
@@ -3774,6 +3779,11 @@ headers-polyfill@^4.0.2:
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/headers-polyfill/-/headers-polyfill-4.0.3.tgz#922a0155de30ecc1f785bcf04be77844ca95ad07"
   integrity sha512-IScLbePpkvO846sIwOtOTDjutRMWdXdJmXdMvk6gCBHxFO8d+QKOQedyZSxFTTFYRSmlgSTDtXqqq4pcenBXLQ==
+
+hono-rate-limiter@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/hono-rate-limiter/-/hono-rate-limiter-0.4.0.tgz#5f7f1f24e04e85faf7b654816d8da66ba3692542"
+  integrity sha512-7RWU2HZvxPtfBrvjXKDiQ3F6ZH8k49JhxVkHquUz5UZKjauj5PrP29MvISykThtfpy4mGG6kqxFBHW1ed9wwnA==
 
 hono@^4.5.11:
   version "4.5.11"

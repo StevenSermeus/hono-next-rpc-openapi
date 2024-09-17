@@ -18,6 +18,7 @@
     "pre-commit": "yarn lint && yarn format:check && yarn test --no-watch"
   },
   "dependencies": {
+    "@hono/node-server": "^1.13.0",
     "@hono/prometheus": "^1.0.1",
     "@hono/swagger-ui": "^0.4.1",
     "@hono/zod-openapi": "^0.16.0",
@@ -35,6 +36,7 @@
     "dotenv": "^16.4.5",
     "framer-motion": "^11.5.4",
     "hono": "^4.5.11",
+    "hono-rate-limiter": "^0.4.0",
     "lucide-react": "^0.441.0",
     "next": "14.2.8",
     "next-themes": "^0.3.0",

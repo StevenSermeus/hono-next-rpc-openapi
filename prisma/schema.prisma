@@ -24,3 +24,13 @@ model RefreshToken{
   userId String
   isRevoked Boolean @default(false)
 }
+
+model RateLimit{
+  ip String
+  key String
+  count Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@id([ip, key])
+}

@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 
+import { rateLimiterMiddleware } from '@/backend/middleware/rate-limiter';
 import type { VariablesHono } from '@/backend/variables';
 
 export const healthRouteOpenApi = createRoute({
@@ -10,7 +11,18 @@ export const healthRouteOpenApi = createRoute({
   tags: ['Health'],
   path: '/health',
   security: [],
+  middleware: [rateLimiterMiddleware({ windowMs: 15 * 60 * 1000, limit: 100, key: 'health' })],
   responses: {
+    429: {
+      description: 'Rate limit exceeded',
+      content: {
+        'application/json': {
+          schema: z.object({
+            message: z.string(),
+          }),
+        },
+      },
+    },
     200: {
       description: 'Login Successful',
       content: {
