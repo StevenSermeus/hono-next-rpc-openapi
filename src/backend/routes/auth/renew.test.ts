@@ -10,7 +10,7 @@ const client = testClient<AppRoutes>(hono);
 describe('Renew', () => {
   let cookies: string[] = [];
   beforeAll(async () => {
-    const res = await client.api.auth.register.$post({
+    const res = await client.api.v1.auth.register.$post({
       json: {
         email: 'renewtest@gmail.com',
         password: '#Password123',
@@ -32,7 +32,7 @@ describe('Renew', () => {
 
   test('Correct', async () => {
     const time = new Timer();
-    const res = await client.api.auth.token.renew.$get(undefined, {
+    const res = await client.api.v1.auth.token.renew.$get(undefined, {
       headers: {
         cookie: cookies.join('; '),
       },
@@ -46,7 +46,7 @@ describe('Renew', () => {
 
   test('Incorrect', async () => {
     const time = new Timer();
-    const res = await client.api.auth.token.renew.$get(undefined, {
+    const res = await client.api.v1.auth.token.renew.$get(undefined, {
       headers: {
         cookie: 'access_token=invalid',
       },
@@ -57,14 +57,14 @@ describe('Renew', () => {
 
   test('No cookie', async () => {
     const time = new Timer();
-    const res = await client.api.auth.token.renew.$get();
+    const res = await client.api.v1.auth.token.renew.$get();
     expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(401);
   });
 
   test('Invalid cookie', async () => {
     const time = new Timer();
-    const res = await client.api.auth.token.renew.$get(undefined, {
+    const res = await client.api.v1.auth.token.renew.$get(undefined, {
       headers: {
         cookie: 'refresh_token=invalid',
       },

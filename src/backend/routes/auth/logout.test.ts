@@ -9,7 +9,7 @@ const client = testClient<AppRoutes>(hono);
 describe('Logout', () => {
   let cookies: string[] = [];
   beforeAll(async () => {
-    const res = await client.api.auth.register.$post({
+    const res = await client.api.v1.auth.register.$post({
       json: {
         email: 'logouttest@gmail.com',
         password: '#Password123',
@@ -30,14 +30,14 @@ describe('Logout', () => {
   });
 
   test('Correct', async () => {
-    const res = await client.api.auth.me.$get(undefined, {
+    const res = await client.api.v1.auth.me.$get(undefined, {
       headers: {
         cookie: cookies.join('; '),
       },
     });
     expect(res.status).toBe(200);
     const time = new Timer();
-    const res2 = await client.api.auth.token.logout.$post(undefined, {
+    const res2 = await client.api.v1.auth.token.logout.$post(undefined, {
       headers: {
         cookie: cookies.join('; '),
       },

@@ -8,14 +8,14 @@ import { RESPONSE_TIMEOUT, Timer } from '@/tests/utils';
 describe('Register', () => {
   test('Correct', async () => {
     const client = testClient<AppRoutes>(hono);
-    const res = await client.api.auth.register.$post({
+    const res = await client.api.v1.auth.register.$post({
       json: {
         email: 'test69999dqsdqs@gmail.com',
         password: '#Password123',
         name: 'John Doe',
       },
     });
-    const res2 = await client.api.auth.me.$get(undefined, {
+    const res2 = await client.api.v1.auth.me.$get(undefined, {
       headers: {
         cookie: res.headers.getSetCookie().join('; '),
       },
@@ -36,7 +36,7 @@ describe('Register', () => {
 
   test('Already used email', async () => {
     const client = testClient<AppRoutes>(hono);
-    await client.api.auth.register.$post({
+    await client.api.v1.auth.register.$post({
       json: {
         email: 'testIntegration0@gmail.com',
         password: '#Password123',
@@ -44,7 +44,7 @@ describe('Register', () => {
       },
     });
     const time = new Timer();
-    const res = await client.api.auth.register.$post({
+    const res = await client.api.v1.auth.register.$post({
       json: {
         email: 'testIntegration0@gmail.com',
         password: '#Password123',
@@ -60,7 +60,7 @@ describe('Register input validation', () => {
   test('No @ in the email', async () => {
     const client = testClient<AppRoutes>(hono);
     const time = new Timer();
-    const res = await client.api.auth.register.$post({
+    const res = await client.api.v1.auth.register.$post({
       json: {
         email: 'test',
         password: '#Password123',
@@ -74,7 +74,7 @@ describe('Register input validation', () => {
   test('No . in the email', async () => {
     const client = testClient<AppRoutes>(hono);
     const time = new Timer();
-    const res = await client.api.auth.register.$post({
+    const res = await client.api.v1.auth.register.$post({
       json: {
         email: 'test@gmail',
         password: '#Password123',
@@ -88,7 +88,7 @@ describe('Register input validation', () => {
   test('No name', async () => {
     const client = testClient<AppRoutes>(hono);
     const time = new Timer();
-    const res = await client.api.auth.register.$post({
+    const res = await client.api.v1.auth.register.$post({
       //@ts-expect-error - Testing invalid input
       json: {
         email: 'test@gmail.com',
@@ -105,7 +105,7 @@ describe('Register input validation', () => {
   test('Too weak password too small and only numbers', async () => {
     const client = testClient<AppRoutes>(hono);
     const time = new Timer();
-    const res = await client.api.auth.register.$post({
+    const res = await client.api.v1.auth.register.$post({
       json: {
         email: 'test@gmail.com',
         password: '123',
@@ -122,7 +122,7 @@ describe('Register input validation', () => {
   test('Too weak password only letters', async () => {
     const client = testClient<AppRoutes>(hono);
     const time = new Timer();
-    const res = await client.api.auth.register.$post({
+    const res = await client.api.v1.auth.register.$post({
       json: {
         email: 'test@gmail.com',
         password: 'testqqsdqsmdqs',

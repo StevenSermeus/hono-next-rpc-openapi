@@ -3,7 +3,6 @@ import { defineConfig } from 'vitest/config';
 
 import react from '@vitejs/plugin-react';
 
-let provide: any;
 export default defineConfig({
   plugins: [react()],
   test: {
@@ -25,12 +24,12 @@ export default defineConfig({
         './postcss.config.mjs',
         './tailwind.config.ts',
         './src/lib/utils.ts',
+        './src/tests',
       ],
     },
     environment: 'jsdom',
     setupFiles: ['./src/tests/setup.all.ts'],
     globalSetup: ['./src/tests/setup.once.ts'],
-    reporters: ['default'],
   },
   server: {
     proxy: {

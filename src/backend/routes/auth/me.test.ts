@@ -13,7 +13,7 @@ describe('Me', async () => {
   let cookies: string[] = [];
   let jwt: string;
   beforeAll(async () => {
-    const res = await client.api.auth.register.$post({
+    const res = await client.api.v1.auth.register.$post({
       json: {
         email: 'metest@gmail.com',
         password: '#Password123',
@@ -43,7 +43,7 @@ describe('Me', async () => {
 
   test('Correct', async () => {
     const time = new Timer();
-    const res = await client.api.auth.me.$get(undefined, {
+    const res = await client.api.v1.auth.me.$get(undefined, {
       headers: {
         cookie: cookies.join('; '),
       },
@@ -54,14 +54,14 @@ describe('Me', async () => {
 
   test('No cookie', async () => {
     const time = new Timer();
-    const res = await client.api.auth.me.$get();
+    const res = await client.api.v1.auth.me.$get();
     expect(res.status).toBe(401);
     expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
   });
 
   test('Expired token', async () => {
     const time = new Timer();
-    const res = await client.api.auth.me.$get(undefined, {
+    const res = await client.api.v1.auth.me.$get(undefined, {
       headers: {
         cookie: `refresh_token=${jwt}; Max-Age=604800;`,
       },

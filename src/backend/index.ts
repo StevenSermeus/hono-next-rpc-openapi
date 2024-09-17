@@ -74,7 +74,7 @@ app.get(
   })
 );
 
-const routes = app.route('/auth', authApp).route('/', healthRoute);
+const routes = app.route('/v1/auth', authApp).route('/', healthRoute);
 
 app.openAPIRegistry.registerComponent('securitySchemes', 'AccessToken', {
   type: 'apiKey',
