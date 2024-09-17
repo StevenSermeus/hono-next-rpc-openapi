@@ -65,6 +65,7 @@
     "eslint-config-next": "14.2.8",
     "husky": "^9.1.6",
     "jsdom": "^25.0.0",
+    "next-router-mock": "^0.9.13",
     "nodemon": "^3.1.4",
     "postcss": "^8",
     "prettier": "^3.3.3",
