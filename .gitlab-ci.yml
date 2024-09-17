@@ -29,6 +29,7 @@ format:
     - yarn format:check
 
 test:
+  coverage: '/All files\s+\|\s+\d+\.\d+\s+\|\s+\d+\.\d+\s+\|\s+\d+\.\d+\s+\|\s+(\d+\.\d+)\s+.*/'
   stage: test
   image: node:20-alpine
   script:
