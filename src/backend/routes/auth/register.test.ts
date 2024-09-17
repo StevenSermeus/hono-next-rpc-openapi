@@ -3,6 +3,7 @@ import { afterAll, describe, expect, test } from 'vitest';
 
 import { AppRoutes, hono } from '@/backend';
 import prisma from '@/backend/libs/prisma';
+import { RESPONSE_TIMEOUT, Timer } from '@/tests/utils';
 
 describe('Register', () => {
   test('Correct', async () => {
@@ -42,6 +43,7 @@ describe('Register', () => {
         name: 'John Doe',
       },
     });
+    const time = new Timer();
     const res = await client.api.auth.register.$post({
       json: {
         email: 'testIntegration0@gmail.com',
@@ -49,6 +51,7 @@ describe('Register', () => {
         name: 'John Doe',
       },
     });
+    expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(400);
   });
 });
@@ -56,6 +59,7 @@ describe('Register', () => {
 describe('Register input validation', () => {
   test('No @ in the email', async () => {
     const client = testClient<AppRoutes>(hono);
+    const time = new Timer();
     const res = await client.api.auth.register.$post({
       json: {
         email: 'test',
@@ -63,11 +67,13 @@ describe('Register input validation', () => {
         name: 'John Doe',
       },
     });
+    expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(400);
   });
 
   test('No . in the email', async () => {
     const client = testClient<AppRoutes>(hono);
+    const time = new Timer();
     const res = await client.api.auth.register.$post({
       json: {
         email: 'test@gmail',
@@ -75,12 +81,13 @@ describe('Register input validation', () => {
         name: 'John Doe',
       },
     });
+    expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(400);
   });
 
   test('No name', async () => {
     const client = testClient<AppRoutes>(hono);
-
+    const time = new Timer();
     const res = await client.api.auth.register.$post({
       //@ts-expect-error - Testing invalid input
       json: {
@@ -88,6 +95,7 @@ describe('Register input validation', () => {
         password: '#Password123',
       },
     });
+    expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(400);
     expect(await res.json()).toMatchObject({
       message: 'You must provide a valid name !',
@@ -96,6 +104,7 @@ describe('Register input validation', () => {
 
   test('Too weak password too small and only numbers', async () => {
     const client = testClient<AppRoutes>(hono);
+    const time = new Timer();
     const res = await client.api.auth.register.$post({
       json: {
         email: 'test@gmail.com',
@@ -103,6 +112,7 @@ describe('Register input validation', () => {
         name: 'John Doe',
       },
     });
+    expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(400);
     expect(await res.json()).toMatchObject({
       message: 'Your password must be at lease 8 characters long',
@@ -111,6 +121,7 @@ describe('Register input validation', () => {
 
   test('Too weak password only letters', async () => {
     const client = testClient<AppRoutes>(hono);
+    const time = new Timer();
     const res = await client.api.auth.register.$post({
       json: {
         email: 'test@gmail.com',
@@ -118,6 +129,7 @@ describe('Register input validation', () => {
         name: 'John Doe',
       },
     });
+    expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(400);
     expect(await res.json()).toMatchObject({
       message:
