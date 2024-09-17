@@ -5,9 +5,12 @@ import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 import { UserSchema } from '@/backend/libs/openApi';
 import prisma from '@/backend/libs/prisma';
 import { protectedRoute } from '@/backend/middleware/auth';
+import { defaultHook } from '@/backend/middleware/zod-handle';
 import type { VariablesHono } from '@/backend/variables';
 
-const me = new OpenAPIHono<{ Variables: VariablesHono }>();
+const me = new OpenAPIHono<{ Variables: VariablesHono }>({
+  defaultHook: defaultHook,
+});
 
 const meRouteOpenApi = createRoute({
   method: 'get',

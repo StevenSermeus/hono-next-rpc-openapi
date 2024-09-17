@@ -1,7 +1,8 @@
 import { testClient } from 'hono/testing';
-import { beforeAll, describe, expect, test } from 'vitest';
+import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 
 import { AppRoutes, hono } from '@/backend';
+import prisma from '@/backend/libs/prisma';
 
 const client = testClient<AppRoutes>(hono);
 
@@ -16,6 +17,16 @@ describe('Login', () => {
       },
     });
     cookies = res.headers.getSetCookie();
+  });
+
+  afterAll(async () => {
+    await prisma.user.deleteMany({
+      where: {
+        email: {
+          in: ['metest@gmail.com'],
+        },
+      },
+    });
   });
 
   test('Correct', async () => {

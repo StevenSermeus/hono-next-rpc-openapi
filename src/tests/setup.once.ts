@@ -1,11 +1,7 @@
 import { execSync } from 'child_process';
 import type { GlobalSetupContext } from 'vitest/node';
 
-import { PrismaClient } from '@prisma/client';
 import { PostgreSqlContainer, type StartedPostgreSqlContainer } from '@testcontainers/postgresql';
-
-//eslint-disable-next-line
-import prisma from '@/backend/libs/prisma';
 
 let container: StartedPostgreSqlContainer;
 
@@ -28,15 +24,6 @@ export const setup = async ({ provide }: GlobalSetupContext) => {
     },
   });
   provide('DATABASE_URL', url);
-  //@ts-expect-error - we are setting the DATABASE_URL_TEST
-  prisma = new PrismaClient({
-    datasources: {
-      db: {
-        url,
-      },
-    },
-  });
-  //for CI/CD it's slower so we need to increase the timeout
 };
 
 export const teardown = async () => {

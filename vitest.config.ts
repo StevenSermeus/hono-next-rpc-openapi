@@ -3,6 +3,7 @@ import { defineConfig } from 'vitest/config';
 
 import react from '@vitejs/plugin-react';
 
+let provide: any;
 export default defineConfig({
   plugins: [react()],
   test: {
@@ -27,8 +28,9 @@ export default defineConfig({
       ],
     },
     environment: 'jsdom',
-    setupFiles: ['./src/tests/setup2.ts'],
-    globalSetup: ['./src/tests/setup.ts'],
+    setupFiles: ['./src/tests/setup.all.ts'],
+    globalSetup: ['./src/tests/setup.once.ts'],
+    reporters: ['default'],
   },
   server: {
     proxy: {

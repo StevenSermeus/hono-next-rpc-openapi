@@ -9,6 +9,7 @@ import { logger } from '@/backend/libs/logger';
 import { UserSchema } from '@/backend/libs/openApi';
 import { hash } from '@/backend/libs/password';
 import prisma from '@/backend/libs/prisma';
+import { defaultHook } from '@/backend/middleware/zod-handle';
 import type { VariablesHono } from '@/backend/variables';
 import { env } from '@/config/env';
 
@@ -23,9 +24,24 @@ export const registerRouteOpenApi = createRoute({
       content: {
         'application/json': {
           schema: z.object({
-            email: z.string().email().openapi({ example: 'johndoe@gmail.com' }),
-            password: z.string().min(8).openapi({ example: 'CompleXPAssWORD123###' }),
-            name: z.string().min(3).openapi({ example: 'John Doe' }),
+            email: z
+              .string({ message: 'You must provide a valid email !' })
+              .email('You must provide a valid email !')
+
+              .openapi({ example: 'johndoe@gmail.com' }),
+            password: z
+              .string({ message: 'You must provide a valid password !' })
+              .min(8, 'Your password must be at lease 8 characters long')
+              //regex at lease 1 uppercase, 1 lowercase, 1 number, 1 special character
+              .regex(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])/,
+                'Your password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character'
+              )
+              .openapi({ example: 'CompleXPAssWORD123###' }),
+            name: z
+              .string({ message: 'You must provide a valid name !' })
+              .min(2, 'Your name should at lease contain 2 letters')
+              .openapi({ example: 'John Doe' }),
           }),
         },
       },
@@ -37,7 +53,7 @@ export const registerRouteOpenApi = createRoute({
       content: {
         'application/json': {
           schema: z.object({
-            message: z.string(),
+            message: z.string().openapi({ example: 'Failed to register, email already used' }),
           }),
         },
       },
@@ -63,7 +79,9 @@ export const registerRouteOpenApi = createRoute({
   },
 });
 
-const register = new OpenAPIHono<{ Variables: VariablesHono }>();
+const register = new OpenAPIHono<{ Variables: VariablesHono }>({
+  defaultHook: defaultHook,
+});
 
 export const registerRoute = register.openapi(registerRouteOpenApi, async c => {
   const { email, password, name } = c.req.valid('json');

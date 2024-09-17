@@ -1,7 +1,8 @@
 import { testClient } from 'hono/testing';
-import { beforeAll, describe, expect, test } from 'vitest';
+import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 
 import { AppRoutes, hono } from '@/backend';
+import prisma from '@/backend/libs/prisma';
 
 const client = testClient<AppRoutes>(hono);
 
@@ -12,6 +13,16 @@ describe('Login', () => {
         email: 'testlogin@gmail.com',
         password: '#Password123',
         name: 'John Doe',
+      },
+    });
+  });
+
+  afterAll(async () => {
+    await prisma.user.deleteMany({
+      where: {
+        email: {
+          in: ['testlogin@gmail.com'],
+        },
       },
     });
   });

@@ -1,7 +1,8 @@
 import { testClient } from 'hono/testing';
-import { describe, expect, test } from 'vitest';
+import { afterAll, describe, expect, test } from 'vitest';
 
 import { AppRoutes, hono } from '@/backend';
+import prisma from '@/backend/libs/prisma';
 
 describe('Register', () => {
   test('Correct', async () => {
@@ -20,6 +21,16 @@ describe('Register', () => {
     });
     expect(res.status).toBe(201);
     expect(res2.status).toBe(200);
+  });
+
+  afterAll(async () => {
+    await prisma.user.deleteMany({
+      where: {
+        email: {
+          in: ['test69999dqsdqs@gmail.com', 'testIntegration0@gmail.com'],
+        },
+      },
+    });
   });
 
   test('Already used email', async () => {
@@ -78,6 +89,9 @@ describe('Register input validation', () => {
       },
     });
     expect(res.status).toBe(400);
+    expect(await res.json()).toMatchObject({
+      message: 'You must provide a valid name !',
+    });
   });
 
   test('Too weak password too small and only numbers', async () => {
@@ -90,5 +104,24 @@ describe('Register input validation', () => {
       },
     });
     expect(res.status).toBe(400);
+    expect(await res.json()).toMatchObject({
+      message: 'Your password must be at lease 8 characters long',
+    });
+  });
+
+  test('Too weak password only letters', async () => {
+    const client = testClient<AppRoutes>(hono);
+    const res = await client.api.auth.register.$post({
+      json: {
+        email: 'test@gmail.com',
+        password: 'testqqsdqsmdqs',
+        name: 'John Doe',
+      },
+    });
+    expect(res.status).toBe(400);
+    expect(await res.json()).toMatchObject({
+      message:
+        'Your password must contain at least 1 uppercase, 1 lowercase, 1 number, 1 special character',
+    });
   });
 });

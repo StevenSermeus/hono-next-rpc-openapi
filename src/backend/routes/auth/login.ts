@@ -7,6 +7,7 @@ import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 import { UserSchema } from '@/backend/libs/openApi';
 import { compare } from '@/backend/libs/password';
 import prisma from '@/backend/libs/prisma';
+import { defaultHook } from '@/backend/middleware/zod-handle';
 import type { VariablesHono } from '@/backend/variables';
 import { env } from '@/config/env';
 
@@ -21,8 +22,18 @@ export const loginRouteOpenApi = createRoute({
       content: {
         'application/json': {
           schema: z.object({
-            email: z.string().email().openapi({ example: 'johndoe@gmail.com' }),
-            password: z.string().min(8).openapi({ example: 'CompleXPAssWORD123###' }),
+            email: z
+              .string({
+                message: 'You must provide a valid email !',
+              })
+              .email('You must provide a valid email !')
+              .openapi({ example: 'johndoe@gmail.com' }),
+            password: z
+              .string({
+                message: 'You must provide a valid password !',
+              })
+              .min(8, 'Your password must be at lease 8 characters long')
+              .openapi({ example: 'CompleXPAssWORD123###' }),
           }),
         },
       },
@@ -70,7 +81,9 @@ export const loginRouteOpenApi = createRoute({
   },
 });
 
-const login = new OpenAPIHono<{ Variables: VariablesHono }>();
+const login = new OpenAPIHono<{ Variables: VariablesHono }>({
+  defaultHook: defaultHook,
+});
 
 export const loginRoute = login.openapi(loginRouteOpenApi, async c => {
   const { email, password } = c.req.valid('json');

@@ -1,18 +1,21 @@
 import { getCookie, setCookie } from 'hono/cookie';
 import { sign, verify } from 'hono/jwt';
-import { JwtTokenExpired, JwtTokenNotBefore } from 'hono/utils/jwt/types';
+import { JwtTokenExpired, JwtTokenInvalid, JwtTokenNotBefore } from 'hono/utils/jwt/types';
 import { z } from 'zod';
 
 import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 
 import prisma from '@/backend/libs/prisma';
+import { defaultHook } from '@/backend/middleware/zod-handle';
 import { env } from '@/config/env';
 
 const SuccessfulSchema = z.object({
   message: z.string(),
 });
 
-const renew = new OpenAPIHono();
+const renew = new OpenAPIHono({
+  defaultHook: defaultHook,
+});
 
 const meRouteOpenApi = createRoute({
   method: 'get',
@@ -105,6 +108,9 @@ export const renewRoute = renew.openapi(meRouteOpenApi, async c => {
       return c.json({ message: 'Unauthorized' }, 401);
     }
     if (e instanceof JwtTokenNotBefore) {
+      return c.json({ message: 'Unauthorized' }, 401);
+    }
+    if (e instanceof JwtTokenInvalid) {
       return c.json({ message: 'Unauthorized' }, 401);
     }
     console.error(e);

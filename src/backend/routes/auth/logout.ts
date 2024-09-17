@@ -5,9 +5,12 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 import prisma from '@/backend/libs/prisma';
 import { BlackListedTokenCounter } from '@/backend/libs/prometheus';
+import { defaultHook } from '@/backend/middleware/zod-handle';
 import type { VariablesHono } from '@/backend/variables';
 
-const logout = new OpenAPIHono<{ Variables: VariablesHono }>();
+const logout = new OpenAPIHono<{ Variables: VariablesHono }>({
+  defaultHook: defaultHook,
+});
 
 const logoutRouteOpenApi = createRoute({
   method: 'post',
