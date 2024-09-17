@@ -40,11 +40,6 @@ test:
   variables:
     DOCKER_HOST: 'tcp://docker:2375'
     DOCKER_DRIVER: overlay2
-  artifacts:
-    paths:
-      - coverage/
-    when: on_success
-    access: all
   needs:
     - lint
     - format
