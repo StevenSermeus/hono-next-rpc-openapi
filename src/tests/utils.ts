@@ -8,4 +8,5 @@ export class Timer {
   }
 }
 
-export const RESPONSE_TIMEOUT = 100;
+//In CI/CD the response time is higher than in local, so we need to increase the timeout
+export const RESPONSE_TIMEOUT = 150;
