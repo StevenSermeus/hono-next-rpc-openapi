@@ -17,6 +17,8 @@ This is a template for a NextJS project with Hono, with basic authentication wit
   - [x] PostgreSQL
 - [x] Hono RPC Client
 - [x] API Integration tests with vitest
+  - [x] Uses of testcontainers for the database
+  - [x] Hono test client for the API
 - [x] Environment Variables validation with [t3-env](https://github.com/t3-oss/t3-env)
 - [x] Gitlab CI/CD
   - [x] Lint
