@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 
+import { logger } from '@/backend/libs/logger';
 import { UserSchema } from '@/backend/libs/openApi';
 import prisma from '@/backend/libs/prisma';
 import { protectedRoute } from '@/backend/middleware/auth';
@@ -88,7 +89,7 @@ export const meRoute = me.openapi(meRouteOpenApi, async c => {
       200
     );
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     return c.json({ message: 'Internal server error' }, 500);
   }
 });

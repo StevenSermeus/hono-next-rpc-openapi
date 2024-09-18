@@ -5,6 +5,7 @@ import { z } from 'zod';
 
 import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 
+import { logger } from '@/backend/libs/logger';
 import prisma from '@/backend/libs/prisma';
 import { defaultHook } from '@/backend/middleware/zod-handle';
 import { env } from '@/config/env';
@@ -71,7 +72,6 @@ const meRouteOpenApi = createRoute({
 
 export const renewRoute = renew.openapi(meRouteOpenApi, async c => {
   try {
-    console.log(c.req.header('Cookie'));
     const refresh_token = getCookie(c, 'refresh_token');
     if (!refresh_token) {
       return c.json({ message: 'Unauthorized' }, 401);
@@ -114,7 +114,7 @@ export const renewRoute = renew.openapi(meRouteOpenApi, async c => {
     if (e instanceof JwtTokenInvalid) {
       return c.json({ message: 'Unauthorized' }, 401);
     }
-    console.error(e);
+    logger.error(e);
     return c.json({ message: 'Internal server error' }, 500);
   }
 });

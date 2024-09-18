@@ -3,6 +3,7 @@ import { getCookie, setCookie } from 'hono/cookie';
 import { OpenAPIHono, createRoute, z } from '@hono/zod-openapi';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
+import { logger } from '@/backend/libs/logger';
 import prisma from '@/backend/libs/prisma';
 import { BlackListedTokenCounter } from '@/backend/libs/prometheus';
 import { defaultHook } from '@/backend/middleware/zod-handle';
@@ -83,7 +84,7 @@ export const logoutRoute = logout.openapi(logoutRouteOpenApi, async c => {
     BlackListedTokenCounter.inc(2);
     return c.json({ message: 'Logged out' });
   } catch (e) {
-    console.error(e);
+    logger.error(e);
     if (e instanceof PrismaClientKnownRequestError) {
       return c.json({ message: 'Error logging out' }, 500);
     }

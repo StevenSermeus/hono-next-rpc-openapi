@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 
+import { logger } from '@/backend/libs/logger';
 import { UserSchema } from '@/backend/libs/openApi';
 import { compare } from '@/backend/libs/password';
 import prisma from '@/backend/libs/prisma';
@@ -157,7 +158,7 @@ export const loginRoute = login.openapi(loginRouteOpenApi, async c => {
       200
     );
   } catch (error) {
-    console.error(error);
+    logger.error(error);
     return c.json({ message: 'Failed to login' }, 500);
   }
 });
