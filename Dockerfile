@@ -4,6 +4,8 @@ FROM --platform=linux/amd64 node:20 AS deps
 # RUN apt install --no-cache libc6-compat openssl
 WORKDIR /app
 
+ENV YARN_CACHE_FOLDER /app/.yarn-cache
+
 # Install Prisma Client - remove if not using Prisma
 COPY prisma ./
 
@@ -43,9 +45,13 @@ WORKDIR /app
 
 ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
+ENV YARN_CACHE_FOLDER /app/.yarn-cache
 
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
+# Needed for argon2 because it's build on the fly with node-gyp therefore we need the node_modules
+COPY --from=deps /app/node_modules/argon2 ./node_modules/argon2
 
 COPY --from=builder /app/next.config.mjs ./
 COPY --from=builder /app/package.json ./package.json
@@ -53,8 +59,6 @@ COPY --from=builder /app/package.json ./package.json
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Need to add the argon2 binary to the image
-RUN yarn add argon2
 
 USER nextjs
 EXPOSE 3000
