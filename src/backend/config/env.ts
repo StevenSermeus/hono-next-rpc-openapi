@@ -21,5 +21,5 @@ export const env = createEnv({
       process.env.NODE_ENV === 'test' ? 15 : process.env.ACCESS_TOKEN_EXPIRES_MINUTES,
     WEBSITE_URL: process.env.WEBSITE_URL || 'http://localhost:3000',
   },
-  skipValidation: process.env.NODE_ENV === 'test',
+  skipValidation: process.env.NODE_ENV === 'test' || process.env.BUILD === 'true',
 });
