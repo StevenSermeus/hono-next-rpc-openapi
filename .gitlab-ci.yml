@@ -8,6 +8,7 @@ default:
         - yarn.lock
     paths:
       - node_modules
+    when: on_success
 
 stages:
   - lint
@@ -50,6 +51,15 @@ build:
   script:
     - yarn
     - yarn build
+  cache:
+    key:
+      files:
+        - package.json
+        - yarn.lock
+    paths:
+      - node_modules
+      - ./.next/cache
+    when: on_success
   variables:
     DATABASE_URL: 'postgres://test:postgres@localhost:5432/test' # This should be set in the environment variables on gitlab of the project
     JWT_ACCESS_SECRET: 'secret_jwt' # This should be set in the environment variables on gitlab of the project
