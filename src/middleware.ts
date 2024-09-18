@@ -5,8 +5,6 @@ import { verify } from 'hono/jwt';
 
 import { env } from '@/config/env';
 
-import { logger } from './backend/libs/logger';
-
 //the redirect need to be adapted depending on the project
 export async function middleware(request: NextRequest) {
   const access_token = request.cookies.get('access_token');
@@ -26,7 +24,6 @@ export async function middleware(request: NextRequest) {
       );
     }
   } catch (e) {
-    logger.error(e);
     return NextResponse.redirect(
       `${request.nextUrl.origin}/redirect?redirect=${request.nextUrl.pathname}`
     );
