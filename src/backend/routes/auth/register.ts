@@ -116,7 +116,7 @@ export const registerRoute = register.openapi(registerRouteOpenApi, async c => {
     setCookie(c, 'refresh_token', refreshToken, {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * env.REFRESH_TOKEN_EXPIRES_DAYS,
-      path: '/api/auth/token',
+      path: '/api/v1/auth/token',
     });
     setCookie(c, 'access_token', token, {
       httpOnly: true,

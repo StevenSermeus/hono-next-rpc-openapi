@@ -124,7 +124,7 @@ export const loginRoute = login.openapi(loginRouteOpenApi, async c => {
       httpOnly: true,
       maxAge: 60 * 60 * 24 * env.REFRESH_TOKEN_EXPIRES_DAYS,
       secure: process.env.NODE_ENV === 'production',
-      path: '/api/auth/token',
+      path: '/api/v1/auth/token',
     });
     setCookie(c, 'access_token', token, {
       httpOnly: true,

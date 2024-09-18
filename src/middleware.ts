@@ -9,7 +9,9 @@ import { env } from '@/config/env';
 export async function middleware(request: NextRequest) {
   const access_token = request.cookies.get('access_token');
   if (!access_token) {
-    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    return NextResponse.redirect(
+      `${request.nextUrl.origin}/redirect?redirect=${request.nextUrl.pathname}`
+    );
   }
   try {
     const payload = (await verify(access_token.value, env.JWT_ACCESS_SECRET)) as {
@@ -17,11 +19,15 @@ export async function middleware(request: NextRequest) {
       exp: number;
     };
     if (!payload.user_id) {
-      return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+      return NextResponse.redirect(
+        `${request.nextUrl.origin}/redirect?redirect=${request.nextUrl.pathname}`
+      );
     }
   } catch (e) {
     console.error(e);
-    return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+    return NextResponse.redirect(
+      `${request.nextUrl.origin}/redirect?redirect=${request.nextUrl.pathname}`
+    );
   }
   return NextResponse.next();
 }

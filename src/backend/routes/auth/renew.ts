@@ -71,6 +71,7 @@ const meRouteOpenApi = createRoute({
 
 export const renewRoute = renew.openapi(meRouteOpenApi, async c => {
   try {
+    console.log(c.req.header('Cookie'));
     const refresh_token = getCookie(c, 'refresh_token');
     if (!refresh_token) {
       return c.json({ message: 'Unauthorized' }, 401);
@@ -92,7 +93,7 @@ export const renewRoute = renew.openapi(meRouteOpenApi, async c => {
     const token = await sign(
       {
         user_id: user_id,
-        exp: Math.floor(Date.now() / 1000) + 60 * 60 * env.ACCESS_TOKEN_EXPIRES_MINUTES,
+        exp: Math.floor(Date.now() / 1000) + 60 * env.ACCESS_TOKEN_EXPIRES_MINUTES,
         iat: Math.floor(Date.now() / 1000),
       },
       env.JWT_ACCESS_SECRET
