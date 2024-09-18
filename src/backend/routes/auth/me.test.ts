@@ -3,8 +3,8 @@ import { testClient } from 'hono/testing';
 import { afterAll, beforeAll, describe, expect, test } from 'vitest';
 
 import { AppRoutes, hono } from '@/backend';
+import { env } from '@/backend/config/env';
 import prisma from '@/backend/libs/prisma';
-import { env } from '@/config/env';
 import { RESPONSE_TIMEOUT, Timer } from '@/tests/utils';
 
 const client = testClient<AppRoutes>(hono);

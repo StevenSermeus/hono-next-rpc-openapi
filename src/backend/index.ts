@@ -7,10 +7,10 @@ import { swaggerUI } from '@hono/swagger-ui';
 import { OpenAPIHono } from '@hono/zod-openapi';
 import { apiReference } from '@scalar/hono-api-reference';
 
+import { env } from '@/backend/config/env';
 import { printMetrics, registerMetrics } from '@/backend/libs/prometheus';
 import { authApp } from '@/backend/routes/auth';
 import { healthRoute } from '@/backend/routes/health';
-import { env } from '@/config/env';
 
 export const dynamic = 'force-dynamic';
 

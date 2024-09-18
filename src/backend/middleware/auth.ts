@@ -3,7 +3,7 @@ import { createMiddleware } from 'hono/factory';
 import { verify } from 'hono/jwt';
 import { JwtTokenExpired } from 'hono/utils/jwt/types';
 
-import { env } from '@/config/env';
+import { env } from '@/backend/config/env';
 
 export const protectedRoute = createMiddleware(async (c, next) => {
   const access_token = getCookie(c, 'access_token');

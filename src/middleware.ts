@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 
 import { verify } from 'hono/jwt';
 
-import { env } from '@/config/env';
+import { env } from '@/backend/config/env';
 
 //the redirect need to be adapted depending on the project
 export async function middleware(request: NextRequest) {

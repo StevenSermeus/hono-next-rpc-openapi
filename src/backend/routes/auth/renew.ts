@@ -5,10 +5,10 @@ import { z } from 'zod';
 
 import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 
+import { env } from '@/backend/config/env';
 import { logger } from '@/backend/libs/logger';
 import prisma from '@/backend/libs/prisma';
 import { defaultHook } from '@/backend/middleware/zod-handle';
-import { env } from '@/config/env';
 
 const SuccessfulSchema = z.object({
   message: z.string(),

@@ -19,7 +19,11 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "@/components/*": ["./src/app/_components/*"]
+      "@/components/*": ["./src/app/_components/*"],
+      "@/providers/*": ["./src/app/_providers/*"],
+      "@/hooks/*": ["./src/app/_hooks/*"],
+      "@/lib/*": ["./src/app/_lib/*"],
+      "@/api": ["./src/app/_api/index.ts"]
     }
   },
   "include": [

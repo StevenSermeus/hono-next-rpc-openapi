@@ -4,13 +4,13 @@ import { z } from 'zod';
 
 import { OpenAPIHono, createRoute } from '@hono/zod-openapi';
 
+import { env } from '@/backend/config/env';
 import { logger } from '@/backend/libs/logger';
 import { UserSchema } from '@/backend/libs/openApi';
 import { compare } from '@/backend/libs/password';
 import prisma from '@/backend/libs/prisma';
 import { defaultHook } from '@/backend/middleware/zod-handle';
 import type { VariablesHono } from '@/backend/variables';
-import { env } from '@/config/env';
 
 export const loginRouteOpenApi = createRoute({
   method: 'post',
