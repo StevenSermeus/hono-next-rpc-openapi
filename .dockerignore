@@ -3,5 +3,13 @@
 .env
 .env.example
 .env.test
+.git
+*Dockerfile*
+*docker-compose*
 node_modules
-docker
+coverage
+.husky
+.prettierignore
+.prettierrc
+update_db.dockerfile
+README.md
