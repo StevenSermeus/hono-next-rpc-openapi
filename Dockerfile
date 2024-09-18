@@ -1,6 +1,6 @@
 ##### DEPENDENCIES
 
-FROM --platform=linux/amd64 node:20 AS deps
+FROM --platform=linux/amd64 node:20-alpine AS deps
 # RUN apt install --no-cache libc6-compat openssl
 WORKDIR /app
 
@@ -21,7 +21,7 @@ RUN \
 
 ##### BUILDER
 
-FROM --platform=linux/amd64 node:20 AS builder
+FROM --platform=linux/amd64 node:20-alpine AS builder
 ARG DATABASE_URL
 ARG NEXT_PUBLIC_CLIENTVAR
 WORKDIR /app
@@ -40,7 +40,7 @@ RUN \
 
 ##### RUNNER
 
-FROM --platform=linux/amd64 node:20 AS runner
+FROM --platform=linux/amd64 node:20-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
