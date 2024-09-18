@@ -14,7 +14,7 @@
     "test": "VITE_CJS_IGNORE_WARNING=true vitest",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "husky",
+    "prepare": "husky && echo 'yarn pre-commit' > .husky/pre-commit",
     "pre-commit": "yarn lint && yarn format:check && yarn test --no-watch"
   },
   "dependencies": {
