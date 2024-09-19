@@ -7,6 +7,6 @@ export const logger = createLogger({
   transports: [new transports.Console()],
 });
 
-if (process.env.NODE_ENV == 'test' && process.env.CI) {
+if (process.env.NODE_ENV == 'test' && process.env.CI === 'true') {
   logger.silent = true;
 }
