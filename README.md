@@ -119,7 +119,7 @@ yarn test
 You can use the pre-commit hook to run the tests before committing. This pre-commit hook is managed by husky and will run the format, lint and test scripts before committing.
 
 ```bash
-yarn prepare
+yarn pre-commit:install
 ```
 
 ### Hono
