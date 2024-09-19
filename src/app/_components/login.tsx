@@ -76,7 +76,12 @@ export default function Login() {
       },
       onError: error => {
         toast.dismiss(t);
-        toast.error(error.message);
+        toast.error(error.message, {
+          action: {
+            label: 'Close',
+            onClick: () => console.log('close'),
+          },
+        });
       },
     });
   }
