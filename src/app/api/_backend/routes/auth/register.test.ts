@@ -30,6 +30,10 @@ describe('Register', () => {
       },
     });
     expect(res.status).toBe(201);
+    expect(await res.json()).toMatchObject({
+      email: 'test69999dqsdqs@gmail.com',
+      name: 'John Doe',
+    });
     expect(res2.status).toBe(200);
   });
 
@@ -78,6 +82,9 @@ describe('Register', () => {
     });
     expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(400);
+    expect(await res.json()).toMatchObject({
+      message: 'Failed to register, email already used',
+    });
   });
 });
 
@@ -94,6 +101,9 @@ describe('Register input validation', () => {
     });
     expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(400);
+    expect(await res.json()).toMatchObject({
+      message: 'You must provide a valid email !',
+    });
   });
 
   test('No . in the email', async () => {
@@ -108,6 +118,9 @@ describe('Register input validation', () => {
     });
     expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(400);
+    expect(await res.json()).toMatchObject({
+      message: 'You must provide a valid email !',
+    });
   });
 
   test('No name', async () => {

@@ -55,9 +55,9 @@ describe('Renew', () => {
     });
     expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(200);
-    //res.getCookies is size of 1 and the cookie is access_token
     expect(res.headers.getSetCookie().length).toBe(1);
     expect(res.headers.getSetCookie()[0]).toContain('access_token');
+    expect(await res.json()).toEqual({ message: 'Token renewed' });
   });
 
   test('Incorrect', async () => {
@@ -69,6 +69,8 @@ describe('Renew', () => {
     });
     expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(401);
+    expect(res.headers.getSetCookie().length).toBe(0);
+    expect(await res.json()).toEqual({ message: 'Unauthorized' });
   });
 
   test('No cookie', async () => {
@@ -76,6 +78,8 @@ describe('Renew', () => {
     const res = await client.api.v1.auth.token.renew.$get();
     expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(401);
+    expect(res.headers.getSetCookie().length).toBe(0);
+    expect(await res.json()).toEqual({ message: 'Unauthorized' });
   });
 
   test('Invalid cookie', async () => {
@@ -87,5 +91,7 @@ describe('Renew', () => {
     });
     expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
     expect(res.status).toBe(401);
+    expect(res.headers.getSetCookie().length).toBe(0);
+    expect(await res.json()).toEqual({ message: 'Unauthorized' });
   });
 });

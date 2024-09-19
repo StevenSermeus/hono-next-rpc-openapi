@@ -62,6 +62,10 @@ describe('Me', async () => {
     });
     expect(res.status).toBe(200);
     expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
+    expect(await res.json()).toMatchObject({
+      email: 'metest@gmail.com',
+      name: 'John Doe',
+    });
   });
 
   test('No cookie', async () => {
@@ -69,6 +73,7 @@ describe('Me', async () => {
     const res = await client.api.v1.auth.me.$get();
     expect(res.status).toBe(401);
     expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
+    expect(await res.json()).toEqual({ message: 'Unauthorized' });
   });
 
   test('Expired token', async () => {
@@ -80,5 +85,6 @@ describe('Me', async () => {
     });
     expect(res.status).toBe(401);
     expect(time.end()).toBeLessThan(RESPONSE_TIMEOUT);
+    expect(await res.json()).toEqual({ message: 'Unauthorized' });
   });
 });

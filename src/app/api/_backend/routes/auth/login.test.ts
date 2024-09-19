@@ -100,6 +100,9 @@ describe('Login', () => {
       },
     });
     expect(res.status).toBe(200);
+    expect(res.headers.getSetCookie().length).toBe(2);
+    expect(res.headers.getSetCookie()[0]).toContain('refresh_token');
+    expect(res.headers.getSetCookie()[1]).toContain('access_token');
   });
 
   test('Wrong password', async () => {
@@ -110,5 +113,7 @@ describe('Login', () => {
       },
     });
     expect(res.status).toBe(400);
+    expect(res.headers.getSetCookie().length).toBe(0);
+    expect(await res.json()).toEqual({ message: 'Failed to login' });
   });
 });
