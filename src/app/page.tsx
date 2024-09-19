@@ -17,7 +17,8 @@ export default function Home() {
   const passwordRef = useRef<HTMLInputElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
 
-  const login = $api.api.v1.auth.login.$post;
+  const login = $api.v1.auth.login.$post;
+
   const loginMutation = useMutation<
     InferResponseType<typeof login>,
     Error,
@@ -34,7 +35,7 @@ export default function Home() {
     mutationKey: ['auth', 'login'],
   });
 
-  const register = $api.api.v1.auth.register.$post;
+  const register = $api.v1.auth.register.$post;
   const registerMutation = useMutation<
     InferResponseType<typeof register>,
     Error,
@@ -51,7 +52,7 @@ export default function Home() {
     mutationKey: ['auth', 'register'],
   });
 
-  const logout = $api.api.v1.auth.token.logout.$post;
+  const logout = $api.v1.auth.token.logout.$post;
   const logoutMutation = useMutation<InferResponseType<typeof logout>, Error, void>({
     mutationFn: async () => {
       const res = await logout();
