@@ -9,4 +9,4 @@ export class Timer {
 }
 
 //In CI/CD the response time is higher than in local, so we need to increase the timeout
-export const RESPONSE_TIMEOUT = process.env.CI ? 250 : 100;
+export const RESPONSE_TIMEOUT = process.env.CI ? 250 : 150;

@@ -3,7 +3,7 @@ import { inject } from 'vitest';
 
 import { PrismaClient } from '@prisma/client';
 
-//eslint-disable-next-line
+// eslint-disable-next-line
 import prisma from '@/backend/libs/prisma';
 
 beforeAll(() => {

@@ -1,10 +1,11 @@
-import path from 'path';
+// import path from 'path';
+import tsconfigPaths from 'vite-tsconfig-paths';
 import { defineConfig } from 'vitest/config';
 
 import react from '@vitejs/plugin-react';
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tsconfigPaths()],
   test: {
     provide: {
       DATABASE_URL: '',
@@ -36,11 +37,6 @@ export default defineConfig({
   server: {
     proxy: {
       '/': 'http://localhost:3000/',
-    },
-  },
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
     },
   },
 });

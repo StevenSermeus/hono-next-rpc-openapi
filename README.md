@@ -25,6 +25,7 @@ This is a template for a NextJS project with Hono, with basic authentication wit
   - [x] Test
   - [x] Build
 - [x] Versioning for API
+- [x] In memory rate limiter
 
 ## Getting Started
 
@@ -121,6 +122,15 @@ You can use the pre-commit hook to run the tests before committing. This pre-com
 yarn prepare
 ```
 
+### Hono
+
+Here is a list of the relative documentation for Hono:
+
+- [RPC](https://hono.dev/docs/guides/rpc#client)
+- [ZodOpenAPI](https://hono.dev/examples/zod-openapi)
+- [Swagger UI](https://hono.dev/examples/swagger-ui)
+- [Routing & best practices](https://hono.dev/docs/guides/best-practices#don-t-make-controllers-when-possible)
+
 ## How the authentication works
 
 ### Password
@@ -148,6 +158,10 @@ A middleware protects the pages that need authentication. If the access token is
 #### When the user tries to access an API route
 
 An automatic retry is done when the access token is expired. The user will call the renew endpoint to get a new access token. If the renew endpoint fails, the user is redirected to the login page. If the renew endpoint is successful, the user will retry the API call.
+
+## Further improvements to do
+
+- [ ] Add a support for [Auth.js](https://authjs.dev/getting-started) there is [@hono/auth-js](https://www.npmjs.com/package/@hono/auth-js).
 
 ## License
 
