@@ -33,5 +33,5 @@ export async function middleware(request: NextRequest) {
 
 // Add all pages that need the user to be authenticated
 export const config = {
-  matcher: ['/home'],
+  matcher: ['/protected'],
 };

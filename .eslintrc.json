@@ -1,3 +1,4 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript", "prettier", "next"]
+  "extends": ["next/core-web-vitals", "next/typescript", "prettier", "next"],
+  "ignorePatterns": ["node_modules/", ".next/", "out/", "./src/app/_components/ui"]
 }

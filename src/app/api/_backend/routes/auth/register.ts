@@ -130,6 +130,7 @@ export const registerRoute = register.openapi(registerRouteOpenApi, async c => {
     });
     return c.json({ email: user.email, name: user.name, id: user.id }, 201);
   } catch (e) {
+    console.error(e);
     logger.error(e);
     if (e instanceof Prisma.PrismaClientKnownRequestError) {
       // The .code property can be accessed in a type-safe manner
