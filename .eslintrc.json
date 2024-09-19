@@ -1,4 +1,10 @@
 {
   "extends": ["next/core-web-vitals", "next/typescript", "prettier", "next"],
-  "ignorePatterns": ["node_modules/", ".next/", "out/", "./src/app/_components/ui"]
+  "ignorePatterns": [
+    "node_modules/",
+    ".next/",
+    "out/",
+    "./src/app/_components/ui/*",
+    "./src/app/_components/magicui/*"
+  ]
 }

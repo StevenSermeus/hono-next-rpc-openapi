@@ -59,6 +59,14 @@ const config = {
         sm: 'calc(var(--radius) - 4px)',
       },
       keyframes: {
+        meteor: {
+          '0%': { transform: 'rotate(215deg) translateX(0)', opacity: '1' },
+          '70%': { opacity: '1' },
+          '100%': {
+            transform: 'rotate(215deg) translateX(-500px)',
+            opacity: '0',
+          },
+        },
         'accordion-down': {
           from: { height: '0' },
           to: { height: 'var(--radix-accordion-content-height)' },
@@ -82,6 +90,7 @@ const config = {
         },
       },
       animation: {
+        meteor: 'meteor 5s linear infinite',
         ripple: 'ripple var(--duration,2s) ease calc(var(--i, 0)*.2s) infinite',
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',

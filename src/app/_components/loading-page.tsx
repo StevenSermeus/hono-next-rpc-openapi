@@ -1,5 +1,3 @@
-'use client';
-
 import React from 'react';
 
 import Ripple from '@/components/magicui/ripple';
