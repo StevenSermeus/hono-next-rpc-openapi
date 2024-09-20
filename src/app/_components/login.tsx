@@ -3,7 +3,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { InferRequestType, InferResponseType } from 'hono';
 import { toast } from 'sonner';
@@ -40,6 +40,7 @@ const loginSchema = z.object({
 });
 
 export default function Login() {
+  const param = useSearchParams();
   const router = useRouter();
   const login = $api.v1.auth.login.$post;
 
@@ -72,7 +73,8 @@ export default function Login() {
       onSuccess: () => {
         toast.dismiss(t);
         toast.success('Logged in successfully');
-        router.push('/protected');
+        const redirect = param.get('redirect') ?? '/';
+        router.push(redirect);
       },
       onError: error => {
         toast.dismiss(t);

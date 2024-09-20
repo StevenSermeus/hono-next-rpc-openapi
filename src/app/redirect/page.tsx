@@ -20,9 +20,9 @@ export default function Page() {
         router.push(redirect);
         return;
       }
-      router.push('/login');
+      router.push('/login?redirect=' + redirect);
     } catch (e) {
-      router.push('/login');
+      router.push('/login?redirect=' + searchParams.get('redirect'));
     }
   }
 

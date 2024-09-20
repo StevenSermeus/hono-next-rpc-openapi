@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 import { InferResponseType } from 'hono';
 import { toast } from 'sonner';
 
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import {
   NavigationMenu,
@@ -22,6 +22,9 @@ import { Button } from './ui/button';
 
 export default function Navigation() {
   const router = useRouter();
+
+  const client = useQueryClient();
+
   const logout = $api.v1.auth.token.logout.$post;
   const logoutMutation = useMutation<InferResponseType<typeof logout>, Error, void>({
     mutationFn: async () => {
@@ -66,6 +69,9 @@ export default function Navigation() {
                 onSuccess: () => {
                   toast.dismiss(t);
                   toast.success('Logged out');
+                  client.invalidateQueries({
+                    queryKey: ['me'],
+                  });
                   router.push('/login');
                 },
                 onError: error => {
