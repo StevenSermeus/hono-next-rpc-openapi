@@ -81,7 +81,7 @@ export const logoutRoute = logout.openapi(logoutRouteOpenApi, async c => {
         isRevoked: true,
       },
     });
-    BlackListedTokenCounter.inc(2);
+    BlackListedTokenCounter.inc(1);
     return c.json({ message: 'Logged out' });
   } catch (e) {
     logger.error(e);

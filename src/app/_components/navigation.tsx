@@ -22,7 +22,6 @@ import { Button } from './ui/button';
 
 export default function Navigation() {
   const router = useRouter();
-
   const client = useQueryClient();
 
   const logout = $api.v1.auth.token.logout.$post;

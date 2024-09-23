@@ -3,7 +3,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { InferRequestType, InferResponseType } from 'hono';
 import { toast } from 'sonner';
@@ -44,7 +44,7 @@ const registerSchema = z.object({
 
 export default function Register() {
   const router = useRouter();
-
+  const params = useSearchParams();
   const register = $api.v1.auth.register.$post;
   const registerMutation = useMutation<
     InferResponseType<typeof register>,
@@ -76,7 +76,8 @@ export default function Register() {
       onSuccess: () => {
         toast.dismiss(t);
         toast.success('Registered successfully');
-        router.push('/protected');
+        const redirect = params.get('redirect');
+        router.push(redirect || '/');
       },
       onError: error => {
         toast.dismiss(t);

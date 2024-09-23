@@ -83,7 +83,7 @@ export const renewRoute = renew.openapi(meRouteOpenApi, async c => {
         token: refresh_token,
       },
     });
-    if (isBlacklisted?.isRevoked) {
+    if (isBlacklisted === null || isBlacklisted.isRevoked) {
       return c.json({ message: 'Unauthorized' }, 401);
     }
     const user_id = payload.user_id;
