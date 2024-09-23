@@ -1,3 +1,5 @@
+import { Suspense } from 'react';
+
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
@@ -33,7 +35,9 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Providers>
-            <Navigation />
+            <Suspense fallback={<div>Loading...</div>}>
+              <Navigation />
+            </Suspense>
             {children}
           </Providers>
         </ThemeProvider>

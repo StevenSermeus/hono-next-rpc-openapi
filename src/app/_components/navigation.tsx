@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { InferResponseType } from 'hono';
 import { toast } from 'sonner';
@@ -23,6 +23,8 @@ import { Button } from './ui/button';
 export default function Navigation() {
   const router = useRouter();
   const client = useQueryClient();
+  const params = useSearchParams();
+  const redirect = params.get('redirect');
 
   const logout = $api.v1.auth.token.logout.$post;
   const logoutMutation = useMutation<InferResponseType<typeof logout>, Error, void>({
@@ -50,12 +52,18 @@ export default function Navigation() {
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink href="/login" className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink
+            href={redirect ? `/login?redirect=${redirect}` : '/login'}
+            className={navigationMenuTriggerStyle()}
+          >
             Login
           </NavigationMenuLink>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <NavigationMenuLink href="/register" className={navigationMenuTriggerStyle()}>
+          <NavigationMenuLink
+            href={redirect ? `/register?redirect=${redirect}` : '/register'}
+            className={navigationMenuTriggerStyle()}
+          >
             Register
           </NavigationMenuLink>
         </NavigationMenuItem>
@@ -65,10 +73,10 @@ export default function Navigation() {
             onClick={() => {
               const t = toast.loading('Logging out...');
               logoutMutation.mutate(undefined, {
-                onSuccess: () => {
+                onSuccess: async () => {
                   toast.dismiss(t);
                   toast.success('Logged out');
-                  client.invalidateQueries({
+                  await client.invalidateQueries({
                     queryKey: ['me'],
                   });
                   router.push('/login');
