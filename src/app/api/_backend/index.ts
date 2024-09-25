@@ -35,9 +35,8 @@ app.doc('/doc', {
     },
   ],
 });
-
-app.use('*', poweredBy());
 app.use('*', registerMetrics);
+app.use('*', poweredBy());
 
 app.get('/metrics', printMetrics);
 app.use(

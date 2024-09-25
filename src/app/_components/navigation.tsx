@@ -76,7 +76,7 @@ export default function Navigation() {
                 onSuccess: async () => {
                   toast.dismiss(t);
                   toast.success('Logged out');
-                  await client.invalidateQueries({
+                  client.invalidateQueries({
                     queryKey: ['me'],
                   });
                   router.push('/login');

@@ -13,3 +13,4 @@ coverage
 .prettierrc
 update_db.dockerfile
 README.md
+prometheus.yml

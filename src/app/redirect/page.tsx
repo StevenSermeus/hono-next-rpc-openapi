@@ -5,7 +5,7 @@ import React, { useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { $api } from '@/api';
-import LoadingPage from '@/components/loading-page';
+import LoadingPage from '@/components/loading/loading-page';
 
 export default function Page() {
   const router = useRouter();

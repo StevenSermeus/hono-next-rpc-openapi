@@ -7,11 +7,23 @@ services:
       POSTGRES_DB: $POSTGRES_DB
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U $POSTGRES_USER']
-      interval: 10s
+      interval: 5s
       timeout: 5s
       retries: 5
 
-  update_db:
+  postgres-exporter:
+    image: wrouesnel/postgres_exporter
+    environment:
+      DATA_SOURCE_URI: 'postgres:5432/postgres?sslmode=disable'
+      DATA_SOURCE_USER: $POSTGRES_USER
+      DATA_SOURCE_PASS: $POSTGRES_PASSWORD
+    ports:
+      - '9187:9187'
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  update-db:
     build:
       context: .
       dockerfile: update_db.dockerfile
@@ -33,10 +45,26 @@ services:
       ACCESS_TOKEN_EXPIRES_MINUTES: 15
       REFRESH_TOKEN_EXPIRES_DAYS: 7
       WEBSITE_URL: 'http://localhost:3000'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://next:3000/api/health']
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
     ports:
       - '3000:3000'
     depends_on:
       postgres:
         condition: service_healthy
-      update_db:
+      update-db:
         condition: service_completed_successfully
+
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    depends_on:
+      next:
+        condition: service_healthy

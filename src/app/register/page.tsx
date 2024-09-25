@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
+import { RegisterSkeleton } from '@/components/loading/register-loading';
 import Register from '@/components/register';
-import { RegisterSkeleton } from '@/components/register-loading';
 
 export default function RegisterPage() {
   return (

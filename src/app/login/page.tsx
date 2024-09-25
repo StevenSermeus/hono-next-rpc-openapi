@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 
+import { LoginSkeleton } from '@/components/loading/login-loading';
 import Login from '@/components/login';
-import { LoginSkeleton } from '@/components/login-loading';
 
 export default function LoginPage() {
   return (
