@@ -1,6 +1,6 @@
 import * as argon2 from 'argon2';
 
-import { logger } from './logger';
+import { logger } from '@/libs/logger';
 
 export async function hash(password: string): Promise<[string, Error | null]> {
   try {

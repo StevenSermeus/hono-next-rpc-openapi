@@ -25,7 +25,9 @@
       "@/lib/*": ["./src/app/_lib/*"],
       "@/api": ["./src/app/_api/index.ts"],
       "@/backend/*": ["./src/app/api/_backend/*"],
-      "@/backend": ["./src/app/api/_backend/index.ts"]
+      "@/backend": ["./src/app/api/_backend/index.ts"],
+      "@/libs/*": ["./src/app/api/_backend/libs/*"],
+      "@/api/react": ["./src/app/_api/index.ts"]
     }
   },
   "include": [

@@ -1,3 +1,4 @@
 {
+  //Uses next.js typescript version for better error linked to next.js ex: export dynamic validation
   "typescript.tsdk": "node_modules/typescript/lib"
 }

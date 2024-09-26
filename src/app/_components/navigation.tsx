@@ -9,6 +9,8 @@ import { toast } from 'sonner';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { $api } from '@/api/react';
+import { Button } from '@/components/ui/button';
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -16,9 +18,6 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
-
-import { $api } from '../_api';
-import { Button } from './ui/button';
 
 export default function Navigation() {
   const router = useRouter();

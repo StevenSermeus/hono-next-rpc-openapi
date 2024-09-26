@@ -12,6 +12,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 
+import { $api } from '@/api/react';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -23,8 +24,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-
-import { $api } from '../_api';
 
 const loginSchema = z.object({
   email: z

@@ -4,7 +4,7 @@ import React from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 
-import { $api } from '../_api';
+import { $api } from '@/api/react';
 
 export default function Page() {
   const query = useQuery({

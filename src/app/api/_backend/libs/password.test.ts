@@ -2,8 +2,8 @@ import * as argon2 from 'argon2';
 import { describe, expect, it, vi } from 'vitest';
 import type { Mock } from 'vitest';
 
-import { logger } from './logger';
-import { compare, hash } from './password';
+import { logger } from '@/libs/logger';
+import { compare, hash } from '@/libs/password';
 
 vi.mock('argon2');
 vi.mock('./logger');

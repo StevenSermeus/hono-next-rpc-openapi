@@ -4,6 +4,7 @@ import { verify } from 'hono/jwt';
 import { JwtTokenExpired } from 'hono/utils/jwt/types';
 
 import { env } from '@/backend/config/env';
+import { AuthorizedCounter, UnauthorizedCounter } from '@/libs/prometheus';
 
 export const protectedRoute = createMiddleware(async (c, next) => {
   const access_token = getCookie(c, 'access_token');
@@ -16,8 +17,10 @@ export const protectedRoute = createMiddleware(async (c, next) => {
   } catch (e) {
     if (e instanceof JwtTokenExpired) {
       deleteCookie(c, 'access_token');
+      UnauthorizedCounter.inc(1);
       return c.json({ message: 'Unauthorized' }, { status: 401 });
     }
   }
+  AuthorizedCounter.inc(1);
   return next();
 });

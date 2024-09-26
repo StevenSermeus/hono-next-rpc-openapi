@@ -9,8 +9,9 @@ import { logger } from '@/backend/libs/logger';
 import { UserSchema } from '@/backend/libs/openApi';
 import { compare } from '@/backend/libs/password';
 import prisma from '@/backend/libs/prisma';
-import { defaultHook } from '@/backend/middleware/zod-handle';
+import { loginValidationHook } from '@/backend/middleware/zod-handle';
 import type { VariablesHono } from '@/backend/variables';
+import { ConnectionAttemptsFailedCounter } from '@/libs/prometheus';
 
 export const loginRouteOpenApi = createRoute({
   method: 'post',
@@ -83,7 +84,7 @@ export const loginRouteOpenApi = createRoute({
 });
 
 const login = new OpenAPIHono<{ Variables: VariablesHono }>({
-  defaultHook: defaultHook,
+  defaultHook: loginValidationHook,
 });
 
 export const loginRoute = login.openapi(loginRouteOpenApi, async c => {
@@ -95,6 +96,7 @@ export const loginRoute = login.openapi(loginRouteOpenApi, async c => {
       },
     });
     if (user === null) {
+      ConnectionAttemptsFailedCounter.inc(1);
       return c.json({ message: 'Failed to login' }, 404);
     }
     const [verified, verifyError] = await compare(password, user.password);
@@ -102,6 +104,7 @@ export const loginRoute = login.openapi(loginRouteOpenApi, async c => {
       return c.json({ message: verifyError.message }, 500);
     }
     if (!verified) {
+      ConnectionAttemptsFailedCounter.inc(1);
       return c.json({ message: 'Failed to login' }, 400);
     }
     const token = await sign(
@@ -138,6 +141,7 @@ export const loginRoute = login.openapi(loginRouteOpenApi, async c => {
       },
     });
     if (token_db !== null && token_db.isRevoked) {
+      ConnectionAttemptsFailedCounter.inc(1);
       return c.json({ message: 'Failed to login' }, 400);
     }
     if (token_db === null) {
@@ -158,6 +162,7 @@ export const loginRoute = login.openapi(loginRouteOpenApi, async c => {
       200
     );
   } catch (error) {
+    ConnectionAttemptsFailedCounter.inc(1);
     logger.error(error);
     return c.json({ message: 'Failed to login' }, 500);
   }
