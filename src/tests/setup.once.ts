@@ -15,7 +15,7 @@ export const setup = async ({ provide }: GlobalSetupContext) => {
   container = await new PostgreSqlContainer('postgres:16').start();
   const url = container.getConnectionUri();
   process.env.DATABASE_URL_TEST = url;
-  //exec with zsh shell
+  //exec with current shell to init the created database
   execSync(`npx prisma db push --skip-generate`, {
     stdio: 'inherit',
     env: {
